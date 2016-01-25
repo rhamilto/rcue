@@ -1,9 +1,19 @@
 //
 // Forms
 // --------------------------------------------------
+.chars-remaining-pf span {
+  font-weight: 600;
+  padding-right: 5px;
+}
+
+.chars-warn-remaining-pf {
+  color: @brand-danger;
+}
 
 .form-control {
-  &[disabled], &[readonly], fieldset[disabled] & {
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
     border-color: @input-border-disabled !important;
     .box-shadow(none);
     color: #969696;

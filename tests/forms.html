@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<!--[if IE 9]><html class="ie9"><![endif]-->
+<!--[if IE 9]><html lang="en-us" class="ie9"><![endif]-->
 <!--[if gt IE 9]><!-->
-<html>
+<html lang="en-us">
 <!--<![endif]-->
   <head>
     <title>Forms - Red Hat&reg; Common User Experience</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../dist/img/favicon.ico">
     <!-- iPad retina icon -->
@@ -21,13 +23,14 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../dist/img/apple-touch-icon-precomposed-114.png">
     <!-- iPhone non-retina icon (iOS < 7) -->
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="../dist/img/apple-touch-icon-precomposed-57.png">
-    <link href="../dist/css/rcue.min.css" rel="stylesheet" media="screen, print">
-    <link href="../dist/css/rcue-additions.min.css" rel="stylesheet" media="screen, print">
+    <link rel="stylesheet" href="../dist/css/rcue.min.css" >
+    <link rel="stylesheet" href="../dist/css/rcue-additions.min.css" >
     <link href="tests.css" rel="stylesheet" media="screen, print">
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="../components/patternfly/dist/js/patternfly.min.js"></script>
   </head>
+
   <body>
     <div class="container">
       <div class="page-header">
@@ -58,6 +61,38 @@
           </div>
         </div>
       </form>
+      <h2>Count Remaining Characters Control</h2>
+      <form>
+        <div class="form-group">
+          <label for="messageArea"></label>
+          <textarea class="form-control" id="messageArea" name="text" placeholder="Type in your message" rows="5"></textarea>
+        </div>
+          <span class="pull-right chars-remaining-pf">
+            <span id="charRemainingCntFld"></span>
+            <button id="postBtn" type="submit" class="btn btn-default">Post New Message</button>
+          </span>
+      </form>
+      <script>
+        // countFld is the id of the field where you want the 'remaining chars. count' number
+        // to be displayed.
+        $('#messageArea').countRemainingChars( {countFld: 'charRemainingCntFld'} );
+
+        // all settings/options
+        // $('#messageArea').countRemainingChars( {countFld: 'charRemainingCntFld',
+        //                                         charsMaxLimit: 20,
+        //                                         charsWarnRemaining: 5,
+        //                                         blockInputAtMaxLimit: true} );
+
+
+        // taId is the id of the textArea field which triggered the event
+        // Helpful if counting remaining chars on multiple TAs
+        $('#messageArea').on("overCharsMaxLimitEvent", function( event, taId ) {
+          $('#postBtn').prop("disabled",true);
+        });
+        $('#messageArea').on("underCharsMaxLimitEvent", function( event, taId) {
+          $('#postBtn').prop("disabled",false);
+        });
+      </script></br>
       <h2>Basic Example</h2>
       <form role="form">
         <div class="form-group">
@@ -423,6 +458,7 @@
           </div><!-- /.col-lg-6 -->
         </div><!-- /.row -->
       </form>
+
     </div><!-- /container -->
   </body>
 </html>

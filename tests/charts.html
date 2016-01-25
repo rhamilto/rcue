@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<!--[if IE 9]><html class="ie9"><![endif]-->
+<!--[if IE 9]><html lang="en-us" class="ie9"><![endif]-->
 <!--[if gt IE 9]><!-->
-<html>
+<html lang="en-us">
 <!--<![endif]-->
   <head>
     <title>Charts - Red Hat&reg; Common User Experience</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../dist/img/favicon.ico">
     <!-- iPad retina icon -->
@@ -21,8 +23,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../dist/img/apple-touch-icon-precomposed-114.png">
     <!-- iPhone non-retina icon (iOS < 7) -->
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="../dist/img/apple-touch-icon-precomposed-57.png">
-    <link href="../dist/css/rcue.min.css" rel="stylesheet" media="screen, print">
-    <link href="../dist/css/rcue-additions.min.css" rel="stylesheet" media="screen, print">
+    <link rel="stylesheet" href="../dist/css/rcue.min.css" >
+    <link rel="stylesheet" href="../dist/css/rcue-additions.min.css" >
     <link href="tests.css" rel="stylesheet" media="screen, print">
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -30,6 +32,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js"></script>
     <script src="../components/patternfly/dist/js/patternfly.min.js"></script>
   </head>
+
   <body>
     <div class="container">
       <div class="page-header">
@@ -48,9 +51,8 @@
       <h2>Sparkline</h2>
       <div class="row">
         <div class="col-md-4">
-          <div id="chart2"></div>
-          <div class="pull-right">91%</div>
-          <div class="pull-left">Less than one year remaining</div>
+          <div class="chart-pf-sparkline" id="chart2"></div>
+          <div>Less than one year remaining</div>
         </div>
       </div>
       <h2>Spline Chart</h2>
@@ -100,6 +102,9 @@
             r: 4
           }
         });
+
+        var c3ChartDefaults = $().c3ChartDefaults();
+
         var chart1 = c3.generate({
           axis: {
             x: {
@@ -114,9 +119,7 @@
             }
           },
           bindto: '#chart1',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
+          color: c3ChartDefaults.getDefaultColors(),
           data: {
             columns: [
               ['data1', 30, 200, 100, 400, 150, 250],
@@ -135,48 +138,19 @@
             r: 4
           }
         });
-        var chart2 = c3.generate({
-          axis: {
-            x: {
-              show: false
-            },
-            y: {
-              show: false
-            }
-          },
-          bindto: '#chart2',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
-          data: {
-            columns: [
-              ['Less than one year remaining', 10, 14, 12, 20, 31, 27, 44, 36, 52, 55, 62, 68, 69, 88, 74, 88, 91],
-            ],
-            type: 'area'
-          },
-          legend: {
-            show: false
-          },
-          point: {
-            r: 1,
-            focus: {
-              expand: {
-                r: 4
-              }
-            }
-          },
-          size: {
-            height: 80
-          },
-          tooltip: {
-            // because a sparkline should only contain a single data column, the tooltip will only work for a single data column
-            contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-              for (i = 0; i < d.length; i++) {
-                return '<span class="c3-tooltip-sparkline">' + d[i].value + '%' + '</span>'
-              }
-            }
-          }
-        });
+
+        // Sparkline Chart
+        var sparklineChartConfig = c3ChartDefaults.getDefaultSparklineConfig();
+        sparklineChartConfig.bindto = '#chart2';
+        sparklineChartConfig.data = {
+          columns: [
+            ['%', 10, 14, 12, 20, 31, 27, 44, 36, 52, 55, 62, 68, 69, 88, 74, 88, 91],
+          ],
+          type: 'area'
+        };
+        var chart2 = c3.generate(sparklineChartConfig);
+
+        // Spline Chart
         var chart3 = c3.generate({
           axis: {
             x: {
@@ -191,9 +165,7 @@
             }
           },
           bindto: '#chart3',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
+          color: c3ChartDefaults.getDefaultColors(),
           data: {
             columns: [
               ['data1', 30, 200, 100, 400, 150, 250],
@@ -213,6 +185,8 @@
             r: 4
           }
         });
+
+        // Area Chart
         var chart4 = c3.generate({
           axis: {
             x: {
@@ -227,9 +201,7 @@
             }
           },
           bindto: '#chart4',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
+          color: c3ChartDefaults.getDefaultColors(),
           data: {
             columns: [
               ['data1', 300, 350, 300, 0, 0, 0],
@@ -249,6 +221,8 @@
             r: 4
           }
         });
+
+        // Stacked Area Chart
         var chart5 = c3.generate({
           axis: {
             x: {
@@ -263,9 +237,7 @@
             }
           },
           bindto: '#chart5',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
+          color: c3ChartDefaults.getDefaultColors(),
           data: {
             columns: [
               ['data1', 300, 350, 300, 0, 0, 0],
@@ -286,6 +258,8 @@
             r: 4
           }
         });
+
+        // Bar Chart
         var chart6 = c3.generate({
           axis: {
             x: {
@@ -307,14 +281,16 @@
             }
           },
           bindto: '#chart6',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
+          color: c3ChartDefaults.getDefaultColors(),
           data: {
             columns: [
               ['data1', 5, 200, 200, 400],
               ['data2', 130, 100, 20, 200]
             ],
+            // optional drilldown behavior
+            onclick: function (d, element) {
+              window.location = chart6Urls[d.id][d.index];
+            },
             type: 'bar'
           },
           grid: {
@@ -323,6 +299,23 @@
             }
           }
         });
+        // URLs for optional drilldown behavior
+        var chart6Urls = {
+          data1: [
+            'https://www.gogole.com',
+            'https://www.yahoo.com',
+            'https://www.bing.com/',
+            'https://duckduckgo.com/'
+          ],
+          data2: [
+            'https://www.redhat.com',
+            'http://mozilla.org',
+            'https://www.acquia.com/',
+            'https://wordpress.org/'
+          ]
+        };
+
+        // Stacked Bar Chart, Rotated
         var chart7 = c3.generate({
           axis: {
             rotated: true,
@@ -340,9 +333,7 @@
             }
           },
           bindto: '#chart7',
-          color: {
-            pattern: ['#0088ce', '#00659c', '#3f9c35', '#ec7a08', '#cc0000']
-          },
+          color: c3ChartDefaults.getDefaultColors(),
           data: {
             columns: [
               ['data1', 5, 200, 200, 400],
@@ -351,80 +342,85 @@
             groups: [
               ['data1', 'data2']
             ],
+            // optional drilldown behavior
+            onclick: function (d, element) {
+              window.location = chart7Urls[d.id][d.index];
+            },
             type: 'bar'
           },
           grid: {
             y: {
               show: true
             }
-          }
-        });
-        var chart8 = c3.generate({
-          bindto: '#chart8',
-          data: {
-            colors: {
-              Cloud:
-          '#00659c',     Virtual: '#0088ce',
-              Baremetal: '#969696'
-            },
-            columns: [
-              ['Cloud', 4,828],
-              ['Virtual', 13,258],
-              ['Baremetal', 11,1124]
-            ],
-            type : 'donut',
-            onclick: function (d, i) { console.log("onclick", d, i); },
-            onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-            onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-          },
-          donut: {
-            title: "29,210 Host Totals"
-          }
-        });
-        var chart9 = c3.generate({
-          bindto: '#chart9',
-          type: "donut",
-          donut: {
-            title: "A",
-            label: {show: false},
-            width: 11
-          },
-          size: {
-            height: 171, // produces a diameter of 150 and a centered chart
           },
           legend: {
-            show: false
-          },
-          color: {
-            pattern: ["#EC7A08","#D1D1D1"]
-          },
-          tooltip: {
-            contents: function (d) {
-              return '<span class="donut-tooltip-pf" style="white-space: nowrap;">' +
-                      Math.round(d[0].ratio * 100) + '%' + ' MHz ' + d[0].name +
-                      '</span>';
-            }
-          },
-          data: {
-            type: "donut",
-            columns: [
-              ["Used", 60],
-              ["Available", 40]
-            ],
-            groups: [
-              ["used", "available"]
-            ],
-            order: null
-          },
+            position: 'right'
+          }
         });
-        $( "#chart9 .c3-chart-arcs-title" ).html(
-          '<tspan dy="0" x="0" class="donut-title-big-pf">' +
-          '60' +
-          '</tspan>' +
-          '<tspan dy="20" x="0" class="donut-title-small-pf">' +
-          'MHz Used' +
-          '</tspan>'
-        );
+        // URLs for optional drilldown behavior
+        var chart7Urls = {
+          data1: [
+            'https://www.gogole.com',
+            'https://www.yahoo.com',
+            'https://www.bing.com/',
+            'https://duckduckgo.com/'
+          ],
+          data2: [
+            'https://www.redhat.com',
+            'http://mozilla.org',
+            'https://www.acquia.com/',
+            'https://wordpress.org/'
+          ]
+        };
+
+        // Donut Chart
+        var donutChartConfig = c3ChartDefaults.getDefaultDonutConfig('29,210 Host Totals');
+        donutChartConfig.bindto = '#chart8';
+        donutChartConfig.tooltip = {show: true};
+        donutChartConfig.data = {
+          type : 'donut',
+          colors: {
+            Cloud: '#00659c',
+            Virtual: '#0088ce',
+            Baremetal: '#969696'
+          },
+          columns: [
+            ['Cloud', 4,828],
+            ['Virtual', 13,258],
+            ['Baremetal', 11,1124]
+          ],
+          onclick: function (d, i) { console.log("onclick", d, i); },
+          onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+          onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+        };
+        var chart8 = c3.generate(donutChartConfig);
+
+        // Custom Donut Chart
+        var customDonutChartConfig = c3ChartDefaults.getDefaultDonutConfig('A');
+        customDonutChartConfig.bindto = '#chart9';
+        customDonutChartConfig.data = {
+          type: "donut",
+          columns: [
+            ["Used", 60],
+            ["Available", 40]
+          ],
+          groups: [
+            ["used", "available"]
+          ],
+          order: null
+        };
+        customDonutChartConfig.tooltip = {
+          contents: function (d) {
+            return '<span class="donut-tooltip-pf" style="white-space: nowrap;">' +
+              Math.round(d[0].ratio * 100) + '%' + ' MHz ' + d[0].name +
+              '</span>';
+          }
+        };
+        var chart9 = c3.generate(customDonutChartConfig);
+        var donutChartTitle = d3.select("#chart9").select('text.c3-chart-arcs-title');
+        donutChartTitle.text("");
+        donutChartTitle.insert('tspan').text("60").classed('donut-title-big-pf', true).attr('dy', 0).attr('x', 0);
+        donutChartTitle.insert('tspan').text("MHz Used").classed('donut-title-small-pf', true).attr('dy', 20).attr('x', 0);
       </script>
 
     </div><!-- /container -->

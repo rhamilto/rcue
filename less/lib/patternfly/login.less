@@ -23,7 +23,7 @@
     margin: 20px auto 70px;
     position: relative;
     text-align: center;
-    @media (min-width: @screen-sm-min) { 
+    @media (min-width: @screen-sm-min) {
       float: right;
       margin-right: 64px;
       margin-top: 50px;
@@ -44,7 +44,7 @@
     padding-bottom: 40px;
     padding-top: 20px;
     width: auto;
-    @media (min-width: @screen-sm-min) { 
+    @media (min-width: @screen-sm-min) {
       bottom: 13%;
       padding-left: 80px;
       position: absolute;
@@ -75,12 +75,13 @@
     }
     .form-horizontal {
       .control-label {
-        font-size: @font-size-base + 1;
+        font-size: (@font-size-base + 1);
         font-weight: 400;
         text-align: left;
       }
       .form-group:last-child {
-        &, .help-block:last-child {
+        &,
+        .help-block:last-child {
           margin-bottom: 0;
         }
       }

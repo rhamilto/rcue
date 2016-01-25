@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<!--[if IE 9]><html class="ie9"><![endif]-->
+<!--[if IE 9]><html lang="en-us" class="ie9"><![endif]-->
 <!--[if gt IE 9]><!-->
-<html>
+<html lang="en-us">
 <!--<![endif]-->
   <head>
     <title>Dashboard - Red Hat&reg; Common User Experience</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../dist/img/favicon.ico">
     <!-- iPad retina icon -->
@@ -21,14 +23,15 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../dist/img/apple-touch-icon-precomposed-114.png">
     <!-- iPhone non-retina icon (iOS < 7) -->
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="../dist/img/apple-touch-icon-precomposed-57.png">
-    <link href="../dist/css/rcue.min.css" rel="stylesheet" media="screen, print">
-    <link href="../dist/css/rcue-additions.min.css" rel="stylesheet" media="screen, print">
+    <link rel="stylesheet" href="../dist/css/rcue.min.css" >
+    <link rel="stylesheet" href="../dist/css/rcue-additions.min.css" >
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.0/d3.min.js"></script>
     <script src="../components/patternfly/dist/js/patternfly.min.js"></script>
   </head>
+
   <body>
     <nav class="navbar navbar-default navbar-pf" role="navigation">
       <div class="navbar-header">
@@ -222,6 +225,8 @@
       </div><!-- /row -->
     </div><!-- /container -->
     <script>
+      var c3ChartDefaults = $().c3ChartDefaults();
+
       var chart = c3.generate({
         axis: {
           x: {
@@ -239,9 +244,7 @@
           }
         },
         bindto: '#chart',
-        color: {
-          pattern: ['#006e9c','#00a8e1', '#3f9c35', '#ec7a08', '#cc0000']
-        },
+        color: c3ChartDefaults.getDefaultColors(),
         data: {
           columns: [
             ['x', '2015-04-01', '2015-04-02', '2015-04-03', '2015-04-04', '2015-04-05', '2015-04-06', '2015-04-07'],
@@ -264,34 +267,28 @@
           height: 220
         }
       });
-      var chart2 = c3.generate({
-        bindto: '#chart2',
-        data: {
-          colors: {
-            Cloud: '#006e9c',
-            Virtual: '#00a8e1',
-            Baremetal: '#969696'
-          },
-          columns: [
-            ['Cloud', 4,828],
-            ['Virtual', 13,258],
-            ['Baremetal', 11,1124]
-          ],
-          type : 'donut',
-          onclick: function (d, i) { console.log("onclick", d, i); },
-          onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-          onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+
+      var donutChartConfig = c3ChartDefaults.getDefaultDonutConfig('29,210 Host');
+      donutChartConfig.bindto = '#chart2';
+      donutChartConfig.tooltip = {show: true};
+      donutChartConfig.data = {
+        colors: {
+          Cloud: '#006e9c',
+          Virtual: '#00a8e1',
+          Baremetal: '#969696'
         },
-        donut: {
-          title: "29,210 Hosts"
-        },
-        legend: {
-          position: 'right'
-        },
-        size: {
-          height: 220
-        }
-      });
+        columns: [
+          ['Cloud', 4,828],
+          ['Virtual', 13,258],
+          ['Baremetal', 11,1124]
+        ],
+        type : 'donut',
+        onclick: function (d, i) { console.log("onclick", d, i); },
+        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+      };
+      var chart2 = c3.generate(donutChartConfig);
+
       var chart4 = c3.generate({
         axis: {
           rotated: true,
@@ -310,9 +307,7 @@
           }
         },
         bindto: '#chart4',
-        color: {
-          pattern: ['#006e9c','#00a8e1', '#3f9c35', '#ec7a08', '#cc0000']
-        },
+        color: c3ChartDefaults.getDefaultColors(),
         data: {
           columns: [
             ['Virtual Resources', 25, 35, 18, 78],
@@ -333,5 +328,6 @@
         }
       });
     </script>
+
   </body>
 </html>

@@ -2,7 +2,12 @@
 // Typography
 // --------------------------------------------------
 
-h1, .h1, h2, .h2 { font-weight: 300; }
+h1,
+.h1,
+h2,
+.h2 {
+  font-weight: 300;
+}
 
 .page-header .actions {
   margin-top: 8px;
@@ -13,12 +18,12 @@ h1, .h1, h2, .h2 { font-weight: 300; }
 
 @media (min-width: @grid-float-breakpoint-max) {
   .page-header-bleed-left {
-    margin-left: -@grid-gutter-width/2;
+    margin-left: (-(@grid-gutter-width / 2));
   }
   .page-header-bleed-right {
-    margin-right: -@grid-gutter-width/2;
+    margin-right: ((-@grid-gutter-width / 2));
     .actions {
-      margin-right: @grid-gutter-width/2;
+      margin-right: (@grid-gutter-width / 2);
     }
   }
 }
